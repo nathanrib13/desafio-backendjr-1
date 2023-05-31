@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
 import { Readable } from "stream";
 import csv = require("csv-parser");
-import readline = require("readline");
-import IClient from "../interfaces/clients.interfaces";
-import client from "../database/client";
+import { IClient } from "../interfaces";
+// import client from "../database/client";
 
 const clientControllerr = async (req: Request, res: Response) => {
   const { file } = req;
