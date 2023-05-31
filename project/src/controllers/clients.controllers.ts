@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { Readable } from "stream";
 import csv = require("csv-parser");
-import { IClient } from "../interfaces";
-// import client from "../database/client";
+import createClienteService from "../service/createCliente.service";
+import createAddressService from "../service/createAddress.service";
+import createContactService from "../service/createContact.service";
+import createCharacteristicsService from "../service/createCharacteristics.service";
 
 const clientControllerr = async (req: Request, res: Response) => {
   const { file } = req;
@@ -12,11 +14,62 @@ const clientControllerr = async (req: Request, res: Response) => {
   readableFile.push(buffer);
   readableFile.push(null);
 
-  const clients: IClient[] = [];
+  const clients = [];
   readableFile
     .pipe(csv())
-    .on("data", (data) => {
-      clients.push(data);
+    .on("data", async (data) => {
+      const {
+        nome,
+        idade,
+        cpf,
+        rg,
+        data_nasc,
+        mae,
+        pai,
+        senha,
+        sexo,
+        cep,
+        endereco,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        altura,
+        peso,
+        tipo_sanguineo,
+        cor,
+        signo,
+        telefone_fixo,
+        celular,
+        email,
+      } = data;
+
+      try {
+        const alturaNumber = parseFloat(altura);
+
+        const cliente = await createClienteService(data);
+
+        const address = await createAddressService(cliente.id, data);
+
+        const contact = await createContactService(cliente.id, data);
+
+        const characteristics = await createCharacteristicsService(
+          cliente.id,
+          data,
+          alturaNumber
+        );
+
+        const clientData = {
+          cliente,
+          address,
+          contact,
+          characteristics,
+        };
+
+        clients.push(clientData);
+      } catch (error) {
+        console.error(error);
+      }
     })
     .on("end", () => {
       res.status(200).json(clients);

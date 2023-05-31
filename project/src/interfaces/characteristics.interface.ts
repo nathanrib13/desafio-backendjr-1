@@ -1,9 +1,8 @@
 interface ICharacteristics {
-  altura: Number;
-  peso: Number;
+  altura: number;
+  peso: number;
   tipo_sanguineo: string;
   cor: string;
-  sexo: string;
   signo: string;
 }
 
