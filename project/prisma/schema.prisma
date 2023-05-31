@@ -14,26 +14,50 @@ model Clients {
   id                Int         @id  @default(autoincrement())  
   name              String
   idade             Int
-  cpf               String     
-  rg                String
+  cpf               String   @unique 
+  rg                String    
   data_nasc         String
-  sexo              String
-  signo             String
   mae               String
   pai               String
-  email             String
   senha             String
+  address           Address?
+  contact           Contact?
+  characteristics   Characteristics?
+
+}
+
+model Address{
+   id                Int         @id  @default(autoincrement()) 
   cep               String
   endereco          String
   numero            String
   bairro            String
   cidade            String
   estado            String
-  telefone_fixo     String
-  celular           String
+
+  clientId            Int    @unique 
+  client            Clients   @relation(fields: [clientId], references:[id])
+}
+
+model Contact{
+   id                Int         @id  @default(autoincrement()) 
+  telefone_fixo     String   @unique 
+  celular           String   @unique 
+  email             String   @unique 
+
+  clientId            Int    @unique 
+  client            Clients   @relation(fields: [clientId], references:[id])
+}
+
+model Characteristics {
+   id                Int         @id  @default(autoincrement())  
   altura            Float
   peso              Int
   tipo_sanguineo    String
   cor               String
+  sexo              String
+  signo             String
 
+  clientId            Int    @unique 
+  client            Clients   @relation(fields: [clientId], references:[id])
 }

@@ -1,4 +1,4 @@
-interface IAdress {
+interface IAddress {
   cep: string;
   endereco: string;
   numero: string;
@@ -7,4 +7,4 @@ interface IAdress {
   estado: string;
 }
 
-export default IAdress;
+export default IAddress;
