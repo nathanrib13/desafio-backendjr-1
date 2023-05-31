@@ -12,7 +12,7 @@ datasource db {
 
 model Clients {
   id                Int         @id  @default(autoincrement())  
-  name              String
+  nome              String
   idade             Int
   cpf               String   @unique 
   rg                String    
@@ -20,6 +20,7 @@ model Clients {
   mae               String
   pai               String
   senha             String
+  sexo              String
   address           Address?
   contact           Contact?
   characteristics   Characteristics?
@@ -55,7 +56,6 @@ model Characteristics {
   peso              Int
   tipo_sanguineo    String
   cor               String
-  sexo              String
   signo             String
 
   clientId            Int    @unique 

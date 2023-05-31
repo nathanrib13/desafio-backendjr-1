@@ -1,5 +1,5 @@
 interface IClient {
-  name: string;
+  nome: string;
   idade: Number;
   cpf: string;
   rg: string;
@@ -7,6 +7,7 @@ interface IClient {
   mae: string;
   pai: string;
   senha: string;
+  sexo: string;
 }
 
 export default IClient;
