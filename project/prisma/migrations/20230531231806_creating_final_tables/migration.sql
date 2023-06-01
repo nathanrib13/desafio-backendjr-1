@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE `Clients` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(191) NOT NULL,
+    `nome` VARCHAR(191) NOT NULL,
     `idade` INTEGER NOT NULL,
     `cpf` VARCHAR(191) NOT NULL,
     `rg` VARCHAR(191) NOT NULL,
@@ -9,6 +9,7 @@ CREATE TABLE `Clients` (
     `mae` VARCHAR(191) NOT NULL,
     `pai` VARCHAR(191) NOT NULL,
     `senha` VARCHAR(191) NOT NULL,
+    `sexo` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Clients_cpf_key`(`cpf`),
     PRIMARY KEY (`id`)
@@ -51,7 +52,6 @@ CREATE TABLE `Characteristics` (
     `peso` INTEGER NOT NULL,
     `tipo_sanguineo` VARCHAR(191) NOT NULL,
     `cor` VARCHAR(191) NOT NULL,
-    `sexo` VARCHAR(191) NOT NULL,
     `signo` VARCHAR(191) NOT NULL,
     `clientId` INTEGER NOT NULL,
 
@@ -60,10 +60,10 @@ CREATE TABLE `Characteristics` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Address` ADD CONSTRAINT `Address_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `Clients`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Address` ADD CONSTRAINT `Address_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `Clients`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Contact` ADD CONSTRAINT `Contact_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `Clients`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Contact` ADD CONSTRAINT `Contact_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `Clients`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Characteristics` ADD CONSTRAINT `Characteristics_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `Clients`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Characteristics` ADD CONSTRAINT `Characteristics_clientId_fkey` FOREIGN KEY (`clientId`) REFERENCES `Clients`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
