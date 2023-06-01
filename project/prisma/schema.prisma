@@ -37,7 +37,7 @@ model Address{
   estado            String
 
   clientId            Int    @unique 
-  client            Clients   @relation(fields: [clientId], references:[id])
+  client            Clients   @relation(fields: [clientId], references:[id], onDelete: Cascade)
 }
 
 model Contact{
@@ -47,7 +47,7 @@ model Contact{
   email             String   @unique 
 
   clientId            Int    @unique 
-  client            Clients   @relation(fields: [clientId], references:[id])
+  client            Clients   @relation(fields: [clientId], references:[id], onDelete: Cascade)
 }
 
 model Characteristics {
@@ -59,5 +59,5 @@ model Characteristics {
   signo             String
 
   clientId            Int    @unique 
-  client            Clients   @relation(fields: [clientId], references:[id])
+  client            Clients   @relation(fields: [clientId], references:[id], onDelete: Cascade)
 }

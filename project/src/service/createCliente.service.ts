@@ -23,7 +23,6 @@ const createClienteService = async (clientData: IClient) => {
 
     return cliente;
   } catch (error) {
-    // Trate o erro adequadamente
     console.error(error);
     throw new Error("Failed to create cliente");
   }

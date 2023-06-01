@@ -26,7 +26,6 @@ const createAddressService = async (
 
     return address;
   } catch (error) {
-    // Trate o erro adequadamente
     console.error(error);
     throw new Error("Failed to create cliente");
   }

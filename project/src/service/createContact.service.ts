@@ -23,7 +23,6 @@ const createContactService = async (
 
     return contact;
   } catch (error) {
-    // Trate o erro adequadamente
     console.error(error);
     throw new Error("Failed to create cliente");
   }

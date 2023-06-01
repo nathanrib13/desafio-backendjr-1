@@ -5,6 +5,7 @@ import createClienteService from "../service/createCliente.service";
 import createAddressService from "../service/createAddress.service";
 import createContactService from "../service/createContact.service";
 import createCharacteristicsService from "../service/createCharacteristics.service";
+import { createClientSchema } from "../schemas/clients.schemas";
 
 const clientControllerr = async (req: Request, res: Response) => {
   const { file } = req;
@@ -14,7 +15,7 @@ const clientControllerr = async (req: Request, res: Response) => {
   readableFile.push(buffer);
   readableFile.push(null);
 
-  const clients = [];
+  const clientsReturn = [];
   readableFile
     .pipe(csv())
     .on("data", async (data) => {
@@ -44,35 +45,35 @@ const clientControllerr = async (req: Request, res: Response) => {
         email,
       } = data;
 
-      try {
-        const alturaNumber = parseFloat(altura);
+      const alturaNumber = parseFloat(altura);
+      const parsedData = createClientSchema.parse(data);
+      data = parsedData;
 
-        const cliente = await createClienteService(data);
+      const cliente = await createClienteService(data);
 
-        const address = await createAddressService(cliente.id, data);
+      const address = await createAddressService(cliente.id, data);
 
-        const contact = await createContactService(cliente.id, data);
+      const contact = await createContactService(cliente.id, data);
 
-        const characteristics = await createCharacteristicsService(
-          cliente.id,
-          data,
-          alturaNumber
-        );
+      const characteristics = await createCharacteristicsService(
+        cliente.id,
+        data,
+        alturaNumber
+      );
 
-        const clientData = {
-          cliente,
-          address,
-          contact,
-          characteristics,
-        };
+      const clientData = {
+        cliente,
+        address,
+        contact,
+        characteristics,
+      };
 
-        clients.push(clientData);
-      } catch (error) {
-        console.error(error);
-      }
+      clientsReturn.push(clientData);
     })
-    .on("end", () => {
-      res.status(200).json(clients);
+    .on("end", async () => {
+      await Promise.all(clientsReturn);
+
+      res.status(201).json({ clientsReturn });
     })
     .on("error", (error) => {
       console.error(error);
