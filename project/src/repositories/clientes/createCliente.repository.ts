@@ -2,12 +2,14 @@ import { error } from "console";
 import prisma from "../../database/client";
 import { AppError } from "../../errors";
 import { IClient } from "../../interfaces";
+import { hash } from "bcrypt";
 
-const createClienteRepository = async (clientData: any, transaction: any) => {
+const createClienteRepository = async (clientData: any) => {
   const { nome, idade, cpf, rg, data_nasc, mae, pai, senha, sexo } = clientData;
+  const hashedPassword = await hash(senha, 10);
   try {
     const idadeNumber = Number(idade);
-    const cliente = await transaction.clients.create({
+    const cliente = await prisma.clients.create({
       data: {
         nome,
         idade: idadeNumber,
@@ -16,7 +18,7 @@ const createClienteRepository = async (clientData: any, transaction: any) => {
         data_nasc,
         mae,
         pai,
-        senha,
+        senha: hashedPassword,
         sexo,
       },
     });
