@@ -3,11 +3,11 @@ import prisma from "../../database/client";
 import { AppError } from "../../errors";
 import { IClient } from "../../interfaces";
 
-const createClienteRepository = async (clientData: any, transaction: any) => {
+const createClienteRepository = async (clientData: any) => {
   const { nome, idade, cpf, rg, data_nasc, mae, pai, senha, sexo } = clientData;
   try {
     const idadeNumber = Number(idade);
-    const cliente = await transaction.clients.create({
+    const cliente = await prisma.clients.create({
       data: {
         nome,
         idade: idadeNumber,

@@ -3,13 +3,12 @@ import { IContact } from "../../interfaces";
 
 const createContactRepository = async (
   clienteId: number,
-  contactData: IContact,
-  transaction: any
+  contactData: IContact
 ) => {
   const { telefone_fixo, email, celular } = contactData;
 
   try {
-    const contact = await transaction.contact.create({
+    const contact = await prisma.contact.create({
       data: {
         client: {
           connect: {
