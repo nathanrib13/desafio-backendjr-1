@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import client from "../database/client";
-import readClientsService from "../service/readClients.service";
+import prisma from "../database/client";
+import findClientsRepository from "../repositories/clientes/findManyClients.repository";
 
 const readClientsController = async (req: Request, res: Response) => {
-  const clientsData = await readClientsService();
+  const clientsData = await findClientsRepository();
   res.status(200).json(clientsData);
 };
 

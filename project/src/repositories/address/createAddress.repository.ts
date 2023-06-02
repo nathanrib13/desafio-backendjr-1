@@ -1,14 +1,13 @@
-import client from "../database/client";
-import { IAddress } from "../interfaces";
+import { IAddress } from "../../interfaces";
 
-const createAddressService = async (
+const createAddressRepository = async (
   clienteID: number,
-  addressData: IAddress
+  addressData: IAddress,
+  transaction: any
 ) => {
   const { cep, endereco, numero, bairro, cidade, estado } = addressData;
-
   try {
-    const address = await client.address.create({
+    const address = await transaction.address.create({
       data: {
         client: {
           connect: {
@@ -26,9 +25,10 @@ const createAddressService = async (
 
     return address;
   } catch (error) {
-    console.error(error);
-    throw new Error("Failed to create cliente");
+    console.log("Erro ao inserir address");
+    console.log(error);
+    return null;
   }
 };
 
-export default createAddressService;
+export default createAddressRepository;
