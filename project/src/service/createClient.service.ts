@@ -26,50 +26,42 @@ const clientService = async (req) => {
           });
           return;
         }
-        await prisma.$transaction(async (transaction) => {
-          const cliente = await createClienteRepository(
-            dataValidated,
-            transaction
-          );
-          if (!cliente) {
+
+        const cliente = await createClienteRepository(dataValidated);
+        if (!cliente) {
+          responseInsert.push({
+            message: `nao foi possivel criar cliente ${data.cpf} na linha ${
+              index + 1
+            }`,
+          });
+          return;
+        }
+
+        const [contacts, address, characteristics] = await Promise.all([
+          createContactRepository(cliente.id, dataValidated),
+          createAddressRepository(cliente.id, dataValidated),
+          createCharacteristicsRepository(cliente.id, dataValidated),
+        ]);
+
+        const checkErrors = [
+          { repository: contacts, message: "contatos" },
+          { repository: address, message: "endereço" },
+          { repository: characteristics, message: "características" },
+        ];
+
+        for (const { repository, message } of checkErrors) {
+          if (!repository) {
             responseInsert.push({
-              message: `nao foi possivel criar cliente ${data.cpf} na linha ${
-                index + 1
-              }`,
+              message: `Não foi possível criar ${message} do cliente ${
+                data.cpf
+              } na linha ${index + 1}`,
             });
             return;
           }
+        }
 
-          const [contacts, address, characteristics] = await Promise.all([
-            createContactRepository(cliente.id, dataValidated, transaction),
-            createAddressRepository(cliente.id, dataValidated, transaction),
-            createCharacteristicsRepository(
-              cliente.id,
-              dataValidated,
-              transaction
-            ),
-          ]);
-
-          const checkErrors = [
-            { repository: contacts, message: "contatos" },
-            { repository: address, message: "endereço" },
-            { repository: characteristics, message: "características" },
-          ];
-
-          for (const { repository, message } of checkErrors) {
-            if (!repository) {
-              responseInsert.push({
-                message: `Não foi possível criar ${message} do cliente ${
-                  data.cpf
-                } na linha ${index + 1}`,
-              });
-              return;
-            }
-          }
-
-          responseInsert.push({
-            message: `cliente com cpf: ${data.cpf} cadastrado com sucesso`,
-          });
+        responseInsert.push({
+          message: `cliente com cpf: ${data.cpf} cadastrado com sucesso`,
         });
       } catch {
         responseInsert.push({

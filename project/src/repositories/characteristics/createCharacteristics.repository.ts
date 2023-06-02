@@ -3,15 +3,14 @@ import { ICharacteristics } from "../../interfaces";
 
 const createCharacteristicsRepository = async (
   clienteId: number,
-  contactData: ICharacteristics,
-  transaction: any
+  contactData: ICharacteristics
 ) => {
   const { altura, peso, tipo_sanguineo, cor, signo } = contactData;
 
   const pesoNumber = Number(peso);
 
   try {
-    const characteristics = await transaction.characteristics.create({
+    const characteristics = await prisma.characteristics.create({
       data: {
         client: {
           connect: {
