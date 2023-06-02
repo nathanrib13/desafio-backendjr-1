@@ -21,7 +21,7 @@ const createClientSchema = z.object({
   tipo_sanguineo: z.string().max(3),
   cor: z.string(),
   signo: z.string(),
-  telefone_fixo: z.string(),
+  telefone_fixo: z.string().max(12),
   celular: z.string().max(12),
   email: z.string(),
 });
