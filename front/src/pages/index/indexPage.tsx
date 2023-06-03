@@ -2,6 +2,8 @@ import { useState } from "react";
 import api from "../../services/axios";
 import { StyleIndexPage } from "./style";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const IndexPage = () => {
   const [fileInputed, setFileInputed] = useState<File | null>(null);
@@ -11,7 +13,7 @@ export const IndexPage = () => {
     event.preventDefault();
 
     if (!fileInputed) {
-      console.error("Nenhum arquivo selecionado");
+      alert("Nenhum arquivo selecionado");
       return;
     }
 
@@ -20,7 +22,7 @@ export const IndexPage = () => {
       formData.append("file", fileInputed);
 
       await enviarArquivo(formData);
-      console.log("Arquivo enviado com sucesso!");
+      // alert("Arquivo enviado com sucesso!");
     } catch (error) {
       console.error("Erro ao enviar o arquivo:", error);
     }
@@ -28,7 +30,10 @@ export const IndexPage = () => {
 
   const enviarArquivo = async (formData: FormData) => {
     try {
-      await api.post("clients", formData);
+      const apiResponse = await api.post("clients", formData);
+      if (apiResponse.data[0].message.startsWith("nao")) {
+        alert("erro ao cadastrar clientes. revise os dados e tente novamnete");
+      }
     } catch (error) {
       throw error;
     }

@@ -12,7 +12,7 @@ const clientController = async (req: Request, res: Response) => {
     const responseService = await clientService(req);
     res.status(responseService.status).json(responseService.data);
   } catch (error) {
-    res.status(500).json("ibnternal server error ");
+    res.status(500).json("internal server error ");
   }
 };
 
