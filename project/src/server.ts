@@ -7,10 +7,10 @@ import { router } from "./routes";
 
 const app = express();
 app.use(session({ secret: "rentcarisamazing" }));
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
-app.use(cors());
 app.use(router);
 
 app.listen(3000, () => {

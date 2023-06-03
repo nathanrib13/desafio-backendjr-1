@@ -1,4 +1,4 @@
-import { Request, Router, Response, NextFunction } from "express";
+import { Request, Response, Router } from "express";
 import multer = require("multer");
 import { clientController } from "./controllers/createClients.controller";
 import readClientsController from "./controllers/readClients.controller";
@@ -13,7 +13,6 @@ const router = Router();
 router.post("/clients", multerConfig.single("file"), clientController);
 
 router.get("/read/clients", isUserLoggedIn, readClientsController);
-router.get("/");
 
 router.get(
   "/auth/google",
