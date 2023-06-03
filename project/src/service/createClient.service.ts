@@ -30,9 +30,9 @@ const clientService = async (req) => {
         const cliente = await createClienteRepository(dataValidated);
         if (!cliente) {
           responseInsert.push({
-            message: `nao foi possivel criar cliente ${data.cpf} na linha ${
-              index + 1
-            }`,
+            message: `nao foi possivel criar o  cliente com cpf ${
+              data.cpf
+            } na linha ${index + 1}`,
           });
           return;
         }
