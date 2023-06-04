@@ -1,0 +1,222 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API de Clientes",
+    "description": "API para gerenciamento de clientes"
+  },
+  "paths": {
+    "/clients": {
+      "post": {
+        "summary": "Criar cliente",
+        "operationId": "createClient",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cliente criado com sucesso"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/read/clients": {
+      "get": {
+        "summary": "Obter lista de clientes",
+        "operationId": "getClients",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de clientes retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Client"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "summary": "Autenticar com Google",
+        "operationId": "authenticateWithGoogle",
+        "responses": {
+          "default": {
+            "description": "Redirecionar para autenticação com Google"
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "summary": "Callback de autenticação do Google",
+        "operationId": "googleAuthCallback",
+        "responses": {
+          "default": {
+            "description": "Redirecionar para a rota de leitura de clientes em caso de sucesso, ou para a rota raiz em caso de falha"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "session-cookie"
+      }
+    },
+    "schemas": {
+      "Client": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "idade": {
+            "type": "integer"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "rg": {
+            "type": "string"
+          },
+          "data_nasc": {
+            "type": "string",
+            "format": "date"
+          },
+          "mae": {
+            "type": "string"
+          },
+          "pai": {
+            "type": "string"
+          },
+          "senha": {
+            "type": "string"
+          },
+          "sexo": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "characteristics": {
+            "$ref": "#/components/schemas/Characteristics"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cep": {
+            "type": "string"
+          },
+          "endereco": {
+            "type": "string"
+          },
+          "numero": {
+            "type": "string"
+          },
+          "bairro": {
+            "type": "string"
+          },
+          "cidade": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "telefone_fixo": {
+            "type": "string"
+          },
+          "celular": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          }
+        }
+      },
+      "Characteristics": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "altura": {
+            "type": "string"
+          },
+          "peso": {
+            "type": "integer"
+          },
+          "tipo_sanguineo": {
+            "type": "string"
+          },
+          "cor": {
+            "type": "string"
+          },
+          "signo": {
+            "type": "string"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          }
+        }
+      }
+    }
+  }
+}

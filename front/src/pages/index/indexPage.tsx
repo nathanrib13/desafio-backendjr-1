@@ -2,7 +2,6 @@ import { useState } from "react";
 import api from "../../services/axios";
 import { StyleIndexPage } from "./style";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const IndexPage = () => {
