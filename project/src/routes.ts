@@ -1,9 +1,30 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import multer = require("multer");
-import { clientControllerr } from "./controllers/clients.controllers";
+import { clientController } from "./controllers/createClients.controller";
+import readClientsController from "./controllers/readClients.controller";
+import isUserLoggedIn from "./middlewares/isUserLogged.middleware";
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+require("./passport/passport.setup");
 
 const multerConfig = multer();
 const router = Router();
 
-router.post("/clients", multerConfig.single("file"), clientControllerr);
+router.post("/clients", multerConfig.single("file"), clientController);
+
+router.get("/read/clients", isUserLoggedIn, readClientsController);
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/read/clients",
+    failureRedirect: "/",
+  })
+);
+
 export { router };
