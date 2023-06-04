@@ -21,7 +21,6 @@ export const IndexPage = () => {
       formData.append("file", fileInputed);
 
       await enviarArquivo(formData);
-      // alert("Arquivo enviado com sucesso!");
     } catch (error) {
       console.error("Erro ao enviar o arquivo:", error);
     }
