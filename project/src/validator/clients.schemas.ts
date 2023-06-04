@@ -26,4 +26,6 @@ const createClientSchema = z.object({
   email: z.string(),
 });
 
-export { createClientSchema };
+const createClientSchemaReturn = createClientSchema.omit({ senha: true });
+
+export { createClientSchema, createClientSchemaReturn };
