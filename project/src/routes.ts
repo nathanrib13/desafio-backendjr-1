@@ -12,7 +12,7 @@ const router = Router();
 
 router.post("/clients", multerConfig.single("file"), clientController);
 
-router.get("/read/clients", isUserLoggedIn, readClientsController);
+router.get("/read/clients", readClientsController);
 
 router.get(
   "/auth/google",

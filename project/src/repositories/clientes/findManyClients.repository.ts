@@ -8,8 +8,8 @@ const findClientsRepository = async () => {
       characteristics: true,
     },
   });
-  const dataWithoutPassword = data.map(({ senha, ...rest }) => rest);
-  return dataWithoutPassword;
+
+  return data;
 };
 
 export default findClientsRepository;
