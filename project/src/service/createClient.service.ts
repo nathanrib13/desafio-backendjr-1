@@ -11,9 +11,6 @@ const clientService = async (req) => {
   const dataArray: any = await csvToJson(req);
   const responseInsert = [];
 
-  console.log("tamanho do obj");
-  console.log(dataArray.length);
-
   await Promise.all(
     dataArray.map(async (data: any, index: number) => {
       try {

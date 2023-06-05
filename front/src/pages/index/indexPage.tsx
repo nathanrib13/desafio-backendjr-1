@@ -31,6 +31,8 @@ export const IndexPage = () => {
       const apiResponse = await api.post("clients", formData);
       if (apiResponse.data[0].message.startsWith("nao")) {
         alert("erro ao cadastrar clientes. revise os dados e tente novamnete");
+      } else {
+        alert("Clientes cadastrados com sucesso");
       }
     } catch (error) {
       throw error;
